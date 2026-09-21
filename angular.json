@@ -2,11 +2,12 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "4caedddd-294d-4020-a3b4-70e570f02ed4"
   },
   "newProjectRoot": "projects",
   "projects": {
-    "tracktask": {
+    "tasktrack": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -24,9 +25,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["src/styles.css"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
@@ -64,10 +63,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "tracktask:build:production"
+              "buildTarget": "tasktrack:build:production"
             },
             "development": {
-              "buildTarget": "tracktask:build:development"
+              "buildTarget": "tasktrack:build:development"
             }
           },
           "defaultConfiguration": "development"

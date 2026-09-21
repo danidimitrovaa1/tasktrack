@@ -1,5 +1,5 @@
 {
-  "name": "tracktask",
+  "name": "tasktrack",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:tracktask": "node dist/tracktask/server/server.mjs"
+    "serve:ssr:tasktrack": "node dist/tasktrack/server/server.mjs"
   },
   "private": true,
   "packageManager": "npm@12.0.2",
@@ -20,6 +20,7 @@
     "@angular/platform-server": "^22.1.0",
     "@angular/router": "^22.1.0",
     "@angular/ssr": "^22.1.8",
+    "@ngrx/signals": "^22.0.1",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
