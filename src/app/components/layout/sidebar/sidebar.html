@@ -1,0 +1,56 @@
+<main class="flex flex-col max-w-sm items-left gap-13 shrink-0 font-custom p-15 text-xl">
+  <img src="tasktrack_logo.png" alt="TaskTrack Logo" class="h-10 object-centre object-contain" />
+  <hr class="border-t-1 border-gray-300" />
+  <ul class="flex flex-col items-left gap-2 text-[#909090]">
+    <!-- Nav Bar Items -->
+    @for (item of navItems; track item.label) {
+      <li
+        class="flex flex-row gap-2 w-full cursor-pointer transition-all px-5 py-3 hover:text-black hover:bg-[#f4f4f5] hover:rounded-xl"
+      >
+        @if (item.label === 'My tasks') {
+          <div class="flex flex-col w-full">
+            <div
+              class="flex flex-row items-center justify-between w-full cursor-pointer"
+              (click)="toggleTasksMenu()"
+            >
+              <!-- Left side: Icon + Label -->
+              <div class="flex flex-row items-center gap-2">
+                <app-icons [icon]="item.icon"></app-icons>
+                <span>{{ item.label }}</span>
+              </div>
+
+              <!-- Right side: Chevron from Icons component -->
+              <app-icons
+                [icon]="'drawerOpeningChevron'"
+                class="inline-block transition-transform duration-200"
+                [class.-rotate-90]="isTasksOpen()"
+              ></app-icons>
+            </div>
+
+            <!-- Drawer Sub-items -->
+            @if (isTasksOpen()) {
+              <ul>
+                @for (sub of item.subItems; track sub.label) {
+                  <li>
+                    <a
+                      [routerLink]="sub.route"
+                      class="flex flex-row gap-2 pl-10 pt-4 items-center hover:text-[#bc40f5] hover:rounded-xl"
+                    >
+                      <app-icons [icon]="sub.icon"></app-icons>
+                      <span>{{ sub.label }}</span>
+                    </a>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        } @else {
+          <a [routerLink]="item.route" class="flex flex-row gap-2 w-full">
+            <app-icons [icon]="item.icon"></app-icons>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </li>
+    }
+  </ul>
+</main>

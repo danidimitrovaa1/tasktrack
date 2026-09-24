@@ -1,11 +1,11 @@
 export enum Priority {
-  Low = 'low',
-  Medium = 'medium',
-  High = 'high',
+  Low = 'Low priority',
+  Medium = 'Medium priority',
+  High = 'High priority',
 }
 
 export interface Task {
   title: string;
-  dueDate: number;
+  dueDate: string;
   priority: Priority;
 }

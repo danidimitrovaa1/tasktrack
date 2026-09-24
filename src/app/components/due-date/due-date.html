@@ -1,0 +1,49 @@
+<div class="relative">
+  <button
+    class="flex flex-row gap-[8px] items-center text-left text-[#888888] text-lg w-fit -ml-3 mt-4 py-1 px-3 hover:bg-gray-100 hover:rounded-lg focus:rounded-lg active:rounded-lg focus:bg-gray-100 active:bg-gray-100"
+    (click)="toggleDatePicker()"
+    [class.rounded-xl]="selectedDate()"
+    [class.text-pink-800]="selectedDate()"
+  >
+    <app-icons [icon]="'calendar'" class="cursor-pointer text-lg"></app-icons>
+    <p>{{ formattedDate() || datePickerButtonTitle() }}</p>
+  </button>
+  @if (isOpen()) {
+    <div
+      class="absolute left-20 top-full z-20 mt-2 flex w-70 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg border-1 font-custom"
+    >
+      <!-- Shortcuts -->
+      <div class="flex flex-col items-center gap-2 p-1 mb-1 pb-3 border-b-1 border-gray-100">
+        <button
+          type="button"
+          (click)="selectToday()"
+          class="flex-1 w-full rounded-full bg-gray-100 px-2 py-1.5 text-base font-custom font-medium text-gray-700 hover:bg-pink-100 hover:text-pink-800 transition-colors"
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          (click)="selectTomorrow()"
+          class="flex-1 w-full rounded-full bg-gray-100 px-2 py-1.5 text-base font-custom font-medium text-gray-700 hover:bg-pink-100 hover:text-pink-800 transition-colors"
+        >
+          Tomorrow
+        </button>
+
+        <button
+          type="button"
+          (click)="selectNoDate()"
+          class="flex-1 w-full rounded-full bg-gray-100 px-2 py-1.5 text-base font-custom font-medium text-gray-700 hover:bg-pink-100 hover:text-pink-800 transition-colors"
+        >
+          No due date
+        </button>
+      </div>
+      <!-- Calendar picker -->
+      <mat-calendar
+        [selected]="selectedDate()"
+        [minDate]="minDate()"
+        (selectedChange)="selectDate($event)"
+        class="w-full outline-none [&_.mat-calendar-body-cell-content]:!outline-none [&_.mat-calendar-body-cell-content]:!shadow-none [&_.cdk-program-focused_.mat-calendar-body-cell-content]:!outline-none [&_.cdk-keyboard-focused_.mat-calendar-body-cell-content]:!outline-none [&_.mat-calendar-body-active]:!outline-none [&_.mat-calendar-body-selected]:!bg-pink-700 [&_.mat-calendar-body-selected]:!text-pink-50 [&_.mat-calendar-body-today:not(.mat-calendar-body-selected)]:!border-pink-700 [&_.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover_.mat-calendar-body-cell-content:not(.mat-calendar-body-selected)]:!bg-pink-50 [&_.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover_.mat-calendar-body-cell-content:not(.mat-calendar-body-selected)]:!text-pink-700 [&_.mat-calendar-body-disabled>.mat-calendar-body-cell-content]:!text-gray-400 [&_.mat-calendar-body-disabled>.mat-calendar-body-cell-content]:!opacity-50"
+      ></mat-calendar>
+    </div>
+  }
+</div>

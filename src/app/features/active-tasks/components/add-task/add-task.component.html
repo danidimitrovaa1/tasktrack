@@ -1,0 +1,29 @@
+<div
+  class="flex flex-row mt-6 w-3/5 gap-6 rounded-[15px] border border-gray-300 bg-white p-8 shadow-[0_0_20px_rgba(0,0,0,0.12)] font-custom items-start"
+>
+  <!-- Left: Checkbox -->
+  <input type="checkbox" class="h-6 w-6 rounded border-1 border-gray-300" />
+  <!-- Right: Rest of the elements -->
+  <div class="w-full">
+    <!-- Text input for task -->
+    <input
+      type="text"
+      name=""
+      id=""
+      /* (blur)="" */
+      placeholder="What needs doing today?"
+      class="w-full text-2xl font-normal outline-none bg-transparent"
+      autofocus
+    />
+    <div class="relative flex flex-row gap-15 items-center">
+      <!-- Priority button and dropdown -->
+      <app-dropdown-menu
+        [buttonTitle]="buttonTitle"
+        [options]="options"
+        class="w-[180px] shrink-0"
+      ></app-dropdown-menu>
+      <!-- Due date picker -->
+      <app-due-date [datePickerButtonTitle]="datePickerButtonTitle"></app-due-date>
+    </div>
+  </div>
+</div>

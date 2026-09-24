@@ -1,0 +1,12 @@
+<div
+  class="block px-7 flex border-1 border-solid border-gray-300 box-content h-12 w-96 items-center rounded-full text-lg font-custom justify-between"
+>
+  <input
+    type="text"
+    placeholder="Search your {{ searchBarPlaceholder() }}..."
+    class="w-full outline-none bg-transparent"
+    (input)="setSearchQuery(searchBar.value)"
+    #searchBar
+  />
+  <app-icons [icon]="'search'" class="text-gray-600 shrink-0 cursor-pointer"></app-icons>
+</div>
