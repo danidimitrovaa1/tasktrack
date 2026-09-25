@@ -1,5 +1,5 @@
 <button
-  class="flex flex-row gap-[7px] items-center text-left text-[#888888] text-lg -ml-3 mt-4 py-1 px-3 hover:bg-gray-100 hover:rounded-lg focus:rounded-lg active:rounded-lg focus:bg-gray-100 active:bg-gray-100 shrink-0"
+  class="flex flex-row gap-[7px] items-center text-left text-[#888888] text-lg -ml-3 py-1 px-3 hover:bg-gray-100 hover:rounded-lg focus:rounded-lg active:rounded-lg focus:bg-gray-100 active:bg-gray-100 shrink-0"
   (click)="toggleDropdown()"
 >
   <app-icons [icon]="'priority'" [class]="iconColourClass()"></app-icons>
@@ -9,8 +9,11 @@
 </button>
 
 @if (isOpen()) {
+  <!-- Invisible backdrop -->
+  <div class="fixed inset-0 z-10 bg-transparent" (click)="onBackdropClick($event)"></div>
+  <!-- Dropdown menu -->
   <div
-    class="absolute left-10 top-full z-20 mt-2 flex w-fit flex-col overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg border-1"
+    class="absolute left-10 top-full z-20 gap-3 mt-2 flex w-fit flex-col overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg border-1 text-base"
   >
     @for (option of options(); track option.id) {
       <!-- Render buttons for each option -->

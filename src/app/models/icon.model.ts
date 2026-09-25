@@ -8,4 +8,6 @@ export type IconType =
   | 'drawerOpeningChevron'
   | 'search'
   | 'add'
-  | 'priority';
+  | 'priority'
+  | 'cancel'
+  | 'arrow-up';

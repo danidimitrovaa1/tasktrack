@@ -65,4 +65,12 @@ export class DueDate {
   selectNoDate(): void {
     this.selectDate(null);
   }
+
+  close(): void {
+    this.isOpen.set(false);
+  }
+
+  onBackdropClick(event: MouseEvent) {
+    this.close();
+  }
 }

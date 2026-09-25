@@ -1,0 +1,47 @@
+<form
+  (submit)="onSubmit($event)"
+  class="flex flex-row mt-6 w-3/5 gap-6 rounded-[15px] border border-gray-300 bg-white p-8 shadow-[0_0_20px_rgba(0,0,0,0.12)] font-custom items-start"
+>
+  <!-- Left: Checkbox -->
+  <input type="checkbox" class="h-6 w-6 rounded border-1 border-gray-300" />
+  <!-- Right: Rest of the elements -->
+  <div class="w-full">
+    <!-- Text input for task title -->
+    <textarea
+      rows="3"
+      placeholder="What needs doing today?"
+      class="field-sizing-content min-h-[2rem] max-h-[250px] w-full resize-none border-none bg-transparent p-0 text-2xl outline-none placeholder:text-[#888888] focus:ring-0"
+      (input)="onTitleInput($event)"
+    ></textarea>
+
+    <!-- Text input for description -->
+    <textarea
+      rows="3"
+      placeholder="Description"
+      class="field-sizing-content min-h-[2rem] max-h-[350px] w-full resize-none border-none bg-transparent items-center mt-[15px] p-0 text-base text-gray-700 outline-none placeholder:text-[#888888] placeholder:pl-[2px] focus:ring-0"
+      (input)="onDescriptionInput($event)"
+    ></textarea>
+
+    <div class="flex flex-row items-center justify-between mt-2">
+      <div class="relative flex flex-row gap-5 items-center">
+        <!-- Priority button and dropdown -->
+        <app-dropdown-menu
+          [buttonTitle]="buttonTitle"
+          [options]="dropdownOptions"
+          class="w-[180px] shrink-0"
+        ></app-dropdown-menu>
+        <!-- Due date picker -->
+        <app-due-date
+          [datePickerButtonTitle]="datePickerButtonTitle"
+          [(selectedDate)]="selectedDueDate"
+        ></app-due-date>
+      </div>
+      <div class="flex flex-row gap-4 items-center">
+        <app-btn-cancel class="items-center"></app-btn-cancel>
+        @if (isCreating()) {
+          <app-btn-create (click)="onSubmit($event)"></app-btn-create>
+        }
+      </div>
+    </div>
+  </div>
+</form>

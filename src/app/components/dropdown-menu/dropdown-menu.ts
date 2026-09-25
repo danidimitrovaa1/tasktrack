@@ -9,7 +9,7 @@ import { DropdownOption } from '../../models/dropdown.model';
   templateUrl: './dropdown-menu.html',
 })
 export class DropdownMenu {
-  closed = output<void>();
+  // closed = output<void>();
 
   isOpen = signal(false);
 
@@ -29,4 +29,12 @@ export class DropdownMenu {
   options = input<DropdownOption[]>([]);
 
   iconColourClass = computed(() => this.selectedOption()?.iconStylesClass);
+
+  close(): void {
+    this.isOpen.set(false);
+  }
+
+  onBackdropClick(event: MouseEvent): void {
+    this.close();
+  }
 }
