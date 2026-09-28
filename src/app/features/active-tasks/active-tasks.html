@@ -6,14 +6,21 @@
     <app-search-bar [searchBarPlaceholder]="searchBarPlaceholder" />
     <button
       class="flex flex-row items-center gap-3 bg-[#771a47] text-[#ffffff] py-3 px-5 rounded-full text-lg font-custom cursor-pointer hover:bg-[#981c58]"
-      (click)="openModal()"
+      (click)="openCreateModal()"
     >
       <app-icons [icon]="'add'"></app-icons>
       <span>Add new task</span>
     </button>
   </div>
   <!-- Add new task modal -->
+  <!-- TODO: -->
   @if (isModalOpen()) {
-    <app-add-task (closed)="closeModal()"></app-add-task>
+    <app-task-card (saveTask)="onSaveTask($event)" (closed)="closeModal()"></app-task-card>
   }
+
+  <div class="mt-6 flex flex-col gap-3">
+    @for (task of tasks(); track task.id) {
+      <app-task-card [task]="task"></app-task-card>
+    }
+  </div>
 </app-margins>
