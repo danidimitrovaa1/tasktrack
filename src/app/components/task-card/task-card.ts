@@ -1,12 +1,14 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { Priority, Task } from '../../models/task.model';
 import { DropdownMenu } from '../dropdown-menu/dropdown-menu';
 import { DueDate } from '../due-date/due-date';
 import { BtnCancel } from '../btn-cancel/btn-cancel';
 import { BtnCreate } from '../btn-create/btn-create';
+import { Icons } from '../icons/icons';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  imports: [DropdownMenu, DueDate, BtnCancel, BtnCreate],
+  imports: [DropdownMenu, DueDate, BtnCancel, BtnCreate, Icons, DatePipe],
   selector: 'app-task-card',
   styleUrl: './task-card.css',
   templateUrl: './task-card.html',
@@ -79,15 +81,20 @@ export class TaskCard {
     },
   ];
 
-  isCreating = input<boolean>(false);
-  onCreate = output<Task>();
+  task = input<Task | null>(null);
+
+  isCreating = computed(() => !this.task());
+  isEditing = signal<boolean>(false);
+
+  saveTask = output<Task>();
 
   onSubmit(event: Event) {
     // Prevent default browser refresh
     event.preventDefault();
 
     // Get values from inputs
-    const id = crypto.randomUUID();
+    // Only generate an id if we're creating, otherwise, reuse the existing id
+    const id = this.isCreating() ? crypto.randomUUID() : this.task()!.id;
     const title = this.taskTitle().trim();
     const description = this.taskDescription().trim();
     const dueDate = (this.selectedDueDate() ?? new Date()).toISOString().split('T')[0];
@@ -99,8 +106,8 @@ export class TaskCard {
       return;
     }
 
-    // Assemble task instance by constructing the newTask object
-    const newTask: Task = {
+    // Assemble task instance by constructing the taskToSave object
+    const taskToSave: Task = {
       id,
       title,
       description,
@@ -109,16 +116,28 @@ export class TaskCard {
     };
 
     // Save the task via a service call
-    if (this.isCreating()) {
-      this.createTask(newTask);
-    }
+    this.saveTask.emit({ ...taskToSave });
 
     // Reset and close the modal
+    this.closed.emit();
   }
 
-  createTask(task: Task) {
-    // Add task to taskList?
+  editTask() {
+    this.isEditing.set(true);
   }
 
-  editTask() {}
+  selectedPriorityOption = computed(() => {
+    const currentTask = this.task();
+    if (!currentTask?.priority) {
+      return this.dropdownOptions[0]; // Fallback to Low Priority if missing
+    }
+
+    // Convert both to string/lowercase to guarantee matching regardless of enum representation
+    const taskPriorityStr = String(currentTask.priority).toLowerCase();
+
+    return (
+      this.dropdownOptions.find((option) => option.id.toLowerCase() === taskPriorityStr) ??
+      this.dropdownOptions[0] // Fallback safety
+    );
+  });
 }

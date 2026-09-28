@@ -1,5 +1,6 @@
-import { Service } from '@angular/core';
-import { Priority, Task } from '../models/task.model';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { Task } from '../models/task.model';
+import { LocalStorageService } from './local-storage';
 
 // Test data
 // const DUMMY_DATA_TASKS: Task[] = [
@@ -33,20 +34,22 @@ import { Priority, Task } from '../models/task.model';
 //   },
 // ];
 
-// TODO: Create a separate localStorage service
-const TASKS_KEY = 'tasktrack_tasks';
-
-@Service()
+@Injectable({ providedIn: 'root' })
 export class TasksService {
+  // TasksService owns the reactive state
+  localStorageService = inject(LocalStorageService);
+
+  // In-memory signal that holds all the tasks in one array
+  readonly tasks = signal<Task[]>(this.localStorageService.getTasksFromLocalStorage());
+
+  //   readonly activeTasks = computed(() => this.tasks().filter((task) => !task.isCompleted));
+  //   readonly completedTasks = computed(() => this.tasks().filter((task) => task.isCompleted));
+
   // All methods that I’d need for operating on tasks:
 
-  getAllTasks() {
-    const tasks = JSON.parse(localStorage.getItem(TASKS_KEY) ?? '[]');
-    return tasks;
-  }
-
-  createTask() {
-    this.getAllTasks();
+  createTask(newTask: Task) {
+    this.tasks.update((currentTasks) => [newTask, ...currentTasks]);
+    this.localStorageService.saveTasksToLocalStorage(this.tasks());
   }
 
   updateTask() {}
