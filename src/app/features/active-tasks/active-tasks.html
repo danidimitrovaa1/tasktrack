@@ -15,7 +15,7 @@
   <!-- Add new task modal -->
   <!-- TODO: -->
   @if (isModalOpen()) {
-    <app-task-card (saveTask)="onSaveTask($event)" (closed)="closeModal()"></app-task-card>
+    <app-task-card (closed)="closeModal()"></app-task-card>
   }
 
   <div class="mt-6 flex flex-col gap-3">

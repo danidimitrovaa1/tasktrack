@@ -1,6 +1,8 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, input, model, output, signal } from '@angular/core';
 import { Icons } from '../icons/icons';
 import { DropdownOption } from '../../models/dropdown.model';
+import { Priority } from '../../models/task.model';
+import { IconType } from '../../models/icon.model';
 
 @Component({
   imports: [Icons],
@@ -9,11 +11,18 @@ import { DropdownOption } from '../../models/dropdown.model';
   templateUrl: './dropdown-menu.html',
 })
 export class DropdownMenu {
-  // closed = output<void>();
+  buttonTitle = input.required<string>();
+
+  options = input.required<DropdownOption[]>();
+
+  icon = input.required<IconType>();
 
   isOpen = signal(false);
 
-  selectedOption = signal<DropdownOption | null>(null);
+  // Two-way signal so that the parent has access to the selected option
+  selectedOption = model<DropdownOption | null>(null);
+
+  iconColourClass = computed(() => this.selectedOption()?.iconStylesClass);
 
   toggleDropdown() {
     this.isOpen.update((open) => !open);
@@ -23,12 +32,6 @@ export class DropdownMenu {
     this.selectedOption.set(option);
     this.isOpen.set(false);
   }
-
-  buttonTitle = input<string>();
-
-  options = input<DropdownOption[]>([]);
-
-  iconColourClass = computed(() => this.selectedOption()?.iconStylesClass);
 
   close(): void {
     this.isOpen.set(false);

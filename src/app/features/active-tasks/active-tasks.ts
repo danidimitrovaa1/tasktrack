@@ -26,15 +26,12 @@ export class ActiveTasks implements OnInit {
 
   selectedTask = signal<Task | null>(null);
 
-  isCreating = true;
-
   ngOnInit(): void {
     this.getAllTasks();
   }
 
   getAllTasks() {
     const tasks = this.tasksService.tasks();
-    console.log(tasks);
     return tasks;
   }
 
@@ -43,17 +40,8 @@ export class ActiveTasks implements OnInit {
     this.selectedTask.set(null);
   }
 
-  openEditModal(task: Task) {
-    this.isModalOpen.set(true);
-    this.selectedTask.set(task);
-  }
-
   closeModal() {
     this.isModalOpen.set(false);
     this.selectedTask.set(null);
-  }
-
-  onSaveTask(task: Task) {
-    this.tasksService.createTask(task);
   }
 }
