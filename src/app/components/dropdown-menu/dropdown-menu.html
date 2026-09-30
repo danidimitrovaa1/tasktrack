@@ -3,7 +3,7 @@
   (click)="toggleDropdown()"
   type="button"
 >
-  <app-icons [icon]="'priority'" [class]="iconColourClass()"></app-icons>
+  <app-icons [icon]="icon()" [class]="iconColourClass()"></app-icons>
   <span [class]="selectedOption()?.selectedStylesClass">{{
     selectedOption()?.label || buttonTitle()
   }}</span>
@@ -19,6 +19,7 @@
     @for (option of options(); track option.id) {
       <!-- Render buttons for each option -->
       <button type="button" (click)="selectOption(option)" [class]="option.stylesClass">
+        <app-icons [icon]="icon()" [class]="iconColourClass()"></app-icons>
         <span>{{ option.label }}</span>
       </button>
     }
