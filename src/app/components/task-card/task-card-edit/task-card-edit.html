@@ -33,19 +33,19 @@
           [buttonTitle]="buttonTitle"
           [options]="priorityDropdownOptions"
           [icon]="icon"
+          [selectedOption]="taskPriority()"
           (selectedOptionChange)="onPrioritySelect($event)"
-          /* [initialValue]="taskPriority()" */
           class="w-[180px] shrink-0"
         ></app-dropdown-menu>
         <!-- Due date picker -->
         <app-due-date
           [datePickerButtonTitle]="datePickerButtonTitle"
           [(selectedDate)]="taskDueDate"
-          /* [initialValue]="taskDueDate()" */
+          [selectedDate]="taskDueDate()"
         ></app-due-date>
       </div>
       <div class="flex flex-row gap-4 items-center">
-        <app-btn-cancel class="items-center"></app-btn-cancel>
+        <app-btn-cancel (click)="closed.emit()" class="items-center"></app-btn-cancel>
         <app-btn-create></app-btn-create>
       </div>
     </div>

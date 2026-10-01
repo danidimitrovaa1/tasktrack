@@ -15,8 +15,11 @@ export class TasksService {
 
   // All methods that I’d need for operating on tasks:
 
-  saveTask(newTask: Task) {
-    this.tasks.update((currentTasks) => [newTask, ...currentTasks]);
+  saveTask(taskToSave: Task, isEditing: boolean = false) {
+
+    if(isEditing) {}
+    // this.tasks.update((currentTasks) => [newTask, ...currentTasks]);
+    this.tasks.update((currentTasks) => currentTasks.map(task => task.));
     this.localStorageService.saveTasksToLocalStorage(this.tasks());
   }
 
