@@ -12,7 +12,11 @@ import { TaskCardView } from './task-card-view/task-card-view';
 export class TaskCard implements OnInit {
   task = input<Task | null>(null);
 
-  isOpen = signal(false);
+  closed = output<void>();
+
+  // for active-tasks
+  isCreating = input<boolean>(false);
+
   isEditing = signal(false);
 
   ngOnInit(): void {
@@ -21,5 +25,10 @@ export class TaskCard implements OnInit {
 
   toggleEdit(editing: boolean) {
     this.isEditing.update((previous) => !previous);
+  }
+
+  handleClose() {
+    this.isEditing.set(false);
+    this.closed.emit();
   }
 }

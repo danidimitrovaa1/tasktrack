@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, signal, ViewChild } from '@angular/core';
 import { Margins } from '../../components/layout/margins/margins';
 import { PageHeader } from '../../components/layout/page-header/page-header';
 import { SearchBar } from '../../components/search-bar/search-bar';
@@ -37,11 +37,6 @@ export class ActiveTasks implements OnInit {
 
   openCreateModal() {
     this.isModalOpen.set(true);
-    this.selectedTask.set(null);
-  }
-
-  closeModal() {
-    this.isModalOpen.set(false);
     this.selectedTask.set(null);
   }
 }

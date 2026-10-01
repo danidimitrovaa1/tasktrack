@@ -1,5 +1,10 @@
-@if (isEditing()) {
-  <task-card-edit [task]="task()" (toggleEdit)="toggleEdit($event)"></task-card-edit>
+@if (isCreating() || isEditing()) {
+  <task-card-edit
+    [task]="task()"
+    (toggleEdit)="toggleEdit($event)"
+    (closed)="handleClose()"
+    [isEditMode]="isEditing()"
+  ></task-card-edit>
 } @else {
   <task-card-view [task]="task()" (toggleEdit)="toggleEdit($event)"></task-card-view>
 }
