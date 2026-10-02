@@ -1,10 +1,10 @@
 import { Component, computed, input, model, OnInit, output, signal } from '@angular/core';
 import { Priority, Task } from '../../models/task.model';
-import { TaskCardEdit } from './task-card-edit/task-card-edit';
+import { TaskCardForm } from './task-card-form/task-card-form';
 import { TaskCardView } from './task-card-view/task-card-view';
 
 @Component({
-  imports: [TaskCardEdit, TaskCardView],
+  imports: [TaskCardForm, TaskCardView],
   selector: 'app-task-card',
   styleUrl: './task-card.css',
   templateUrl: './task-card.html',

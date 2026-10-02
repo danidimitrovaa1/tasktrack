@@ -9,15 +9,14 @@ import { Priority } from '../../../models/task.model';
 import { DropdownOption } from '../../../models/dropdown.model';
 import { IconType } from '../../../models/icon.model';
 import { TasksService } from '../../../services/tasks.service';
-import { DatePipe } from '@angular/common';
 
 @Component({
-  imports: [DropdownMenu, DueDate, BtnCreate, BtnCancel, DatePipe],
-  selector: 'task-card-edit',
-  styleUrl: './task-card-edit.css',
-  templateUrl: './task-card-edit.html',
+  imports: [DropdownMenu, DueDate, BtnCreate, BtnCancel],
+  selector: 'task-card-form',
+  styleUrl: './task-card-form.css',
+  templateUrl: './task-card-form.html',
 })
-export class TaskCardEdit {
+export class TaskCardForm {
   tasksService = inject(TasksService);
 
   task = input<Task | null>(null);
@@ -27,6 +26,8 @@ export class TaskCardEdit {
   closed = output<void>();
 
   toggleEdit = output<boolean>();
+
+  mode = computed(() => (this.task() ? 'edit' : 'create'));
 
   taskId = signal('');
   taskTitle = signal('');
@@ -58,9 +59,9 @@ export class TaskCardEdit {
     effect(() => {
       const currentTask = this.task();
 
-      if (currentTask) {
+      if (currentTask && this.taskId() !== currentTask.id) {
         this.taskId.set(currentTask.id);
-        this.taskTitle.set(currentTask.title);
+        this.taskTitle.set(currentTask.title ?? '');
         this.taskDescription.set(currentTask.description ?? '');
 
         this.taskDueDate.set(currentTask.dueDate ? new Date(currentTask.dueDate) : null);
@@ -93,6 +94,7 @@ export class TaskCardEdit {
     // else if (option?.id === Priority.Medium) this.taskPriority.set(Priority.Medium);
     // else this.taskPriority.set(Priority.Low);
 
+    console.log('Priority selected:', option);
     this.taskPriority.set(option);
   }
 
@@ -100,37 +102,40 @@ export class TaskCardEdit {
     // Prevent default browser refresh
     event.preventDefault();
 
-    // Get values from inputs
-    // Only generate an id if we're creating, otherwise, reuse the existing id
-    const id = this.task()?.id ?? crypto.randomUUID();
+    console.log('Submitting priority:', typeof this.taskPriority()?.id);
+    console.log('Submitting due date:', this.taskDueDate());
 
-    const title = this.taskTitle().trim();
-
-    const description = this.taskDescription().trim();
-
-    const dueDate =
-      this.taskDueDate()?.toISOString()?.split('T')?.[0] ?? new Date().toISOString().split('T')[0];
-
-    // const priority =
-    //   this.taskPriority() === 'Priority' ? Priority.Low : (this.taskPriority() as Priority);
-    const priority = (this.taskPriority()?.id as Priority) ?? Priority.Low;
-
-    // Validate input
     if (!this.taskTitle()) {
       return;
     }
 
-    // Assemble task instance by constructing the taskToSave object
-    const taskToSave: Task = {
-      id,
-      title,
-      description,
-      dueDate,
-      priority,
-    };
+    // Get values from inputs depending on the mode
+    if (this.mode() === 'edit') {
+      const taskToUpdate: Task = {
+        id: this.task()!.id,
+        title: this.taskTitle().trim(),
+        description: this.taskDescription().trim(),
+        dueDate: this.taskDueDate() ?? undefined,
+        priority: this.taskPriority()?.id as Priority,
+      };
 
-    // Save the task via a service callxs
-    this.tasksService.saveTask(taskToSave);
+      console.log(typeof taskToUpdate.dueDate);
+
+      // Save the task via a service call
+      this.tasksService.updateTask(taskToUpdate);
+
+      console.log('Task updated!');
+    } else {
+      const taskToSave: Task = {
+        id: crypto.randomUUID(),
+        title: this.taskTitle().trim(),
+        description: this.taskDescription().trim(),
+        dueDate: this.taskDueDate() ?? new Date(),
+        priority: (this.taskPriority()?.id as Priority) ?? Priority.Low,
+      };
+
+      this.tasksService.saveTask(taskToSave);
+    }
 
     this.clearState();
 

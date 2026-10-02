@@ -1,8 +1,9 @@
-import { Component, model, signal, computed, input } from '@angular/core';
+import { Component, model, signal, computed, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Icons } from '../icons/icons';
+import { DropdownOption } from '../../models/dropdown.model';
 
 @Component({
   imports: [MatCardModule, MatDatepickerModule, MatNativeDateModule, Icons],
@@ -11,6 +12,8 @@ import { Icons } from '../icons/icons';
   templateUrl: './due-date.html',
 })
 export class DueDate {
+  dateSelected = output<Date | null>();
+
   datePickerButtonTitle = input<string>();
 
   // Two-way signal so that the parent has access to the selected date
@@ -46,6 +49,7 @@ export class DueDate {
   selectDate(date: Date | null): void {
     this.selectedDate.set(date);
     this.isOpen.set(false);
+    this.dateSelected.emit(date);
   }
 
   // Shortcuts for today, tomorrow, and no date

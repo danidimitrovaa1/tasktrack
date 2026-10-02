@@ -35,6 +35,7 @@
           [icon]="icon"
           [selectedOption]="taskPriority()"
           (selectedOptionChange)="onPrioritySelect($event)"
+          (prioritySelected)="onPrioritySelect($event)"
           class="w-[180px] shrink-0"
         ></app-dropdown-menu>
         <!-- Due date picker -->
@@ -42,6 +43,7 @@
           [datePickerButtonTitle]="datePickerButtonTitle"
           [(selectedDate)]="taskDueDate"
           [selectedDate]="taskDueDate()"
+          (dateSelected)="taskDueDate.set($event)"
         ></app-due-date>
       </div>
       <div class="flex flex-row gap-4 items-center">

@@ -15,15 +15,22 @@ export class TasksService {
 
   // All methods that I’d need for operating on tasks:
 
-  saveTask(taskToSave: Task, isEditing: boolean = false) {
-
-    if(isEditing) {}
-    // this.tasks.update((currentTasks) => [newTask, ...currentTasks]);
-    this.tasks.update((currentTasks) => currentTasks.map(task => task.));
-    this.localStorageService.saveTasksToLocalStorage(this.tasks());
+  private persistTaskList(updatedTasks: Task[]) {
+    this.tasks.set(updatedTasks);
+    this.localStorageService.saveTasksToLocalStorage(updatedTasks);
   }
 
-  updateTask() {}
+  saveTask(taskToSave: Task) {
+    const updatedTasks = [taskToSave, ...this.tasks()];
+    this.persistTaskList(updatedTasks);
+  }
+
+  updateTask(taskToUpdate: Task) {
+    const updatedTasks = this.tasks().map((task) =>
+      task.id === taskToUpdate.id ? taskToUpdate : task,
+    );
+    this.persistTaskList(updatedTasks);
+  }
 
   deleteTask() {}
 
