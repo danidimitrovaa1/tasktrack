@@ -11,6 +11,8 @@ import { IconType } from '../../models/icon.model';
   templateUrl: './dropdown-menu.html',
 })
 export class DropdownMenu {
+  prioritySelected = output<DropdownOption>();
+
   buttonTitle = input.required<string>();
 
   options = input.required<DropdownOption[]>();
@@ -31,6 +33,7 @@ export class DropdownMenu {
   selectOption(option: DropdownOption) {
     this.selectedOption.set(option);
     this.isOpen.set(false);
+    this.prioritySelected.emit(option);
   }
 
   close(): void {
