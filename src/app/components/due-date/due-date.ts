@@ -4,9 +4,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Icons } from '../icons/icons';
 import { DropdownOption } from '../../models/dropdown.model';
+import { InvisibleBackdrop } from '../invisible-backdrop/invisible-backdrop';
 
 @Component({
-  imports: [MatCardModule, MatDatepickerModule, MatNativeDateModule, Icons],
+  imports: [MatCardModule, MatDatepickerModule, MatNativeDateModule, Icons, InvisibleBackdrop],
   selector: 'app-due-date',
   styleUrl: './due-date.css',
   templateUrl: './due-date.html',
@@ -68,13 +69,5 @@ export class DueDate {
 
   selectNoDate(): void {
     this.selectDate(null);
-  }
-
-  close(): void {
-    this.isOpen.set(false);
-  }
-
-  onBackdropClick(event: MouseEvent) {
-    this.close();
   }
 }

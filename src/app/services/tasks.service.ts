@@ -32,7 +32,10 @@ export class TasksService {
     this.persistTaskList(updatedTasks);
   }
 
-  deleteTask() {}
+  deleteTask(taskIdToDelete: string) {
+    const updatedTasks = this.tasks().filter((task) => task.id !== taskIdToDelete);
+    this.persistTaskList(updatedTasks);
+  }
 
   markTaskComplete() {}
 }
