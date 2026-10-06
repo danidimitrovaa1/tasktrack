@@ -1,0 +1,28 @@
+<!-- Backdrop -->
+<div class="fixed inset-0 z-100 bg-zinc-500/15">
+  <div class="fixed inset-0 z-10 bg-zinc-500/1">
+    <div class="flex min-h-screen justify-center items-center">
+      <!-- Modal -->
+      <div class="flex flex-col gap-6 bg-white px-12 py-10 w-120 items-center rounded-xl">
+        <h1 class="text-3xl font-bold font-custom">{{ dialogTitle() }}</h1>
+        <p class="text-lg text-center font-custom">
+          {{ dialogDescription() }}
+        </p>
+        <div class="flex w-full gap-2">
+          <button
+            class="grow py-2 bg-gray-300 rounded-full text-black text-base font-custom cursor-pointe hover:bg-gray-200"
+            (click)="discard.emit()"
+          >
+            {{ discardButtonTag() }}
+          </button>
+          <button
+            class="grow bg-pink-800 rounded-full text-white text-base font-custom cursor-pointer hover:bg-pink-700"
+            (click)="confirm.emit()"
+          >
+            {{ confirmButtonTag() }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

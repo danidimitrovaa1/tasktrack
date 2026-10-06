@@ -3,9 +3,10 @@ import { Task } from '../../../models/task.model';
 import { Icons } from '../../icons/icons';
 import { PRIORITY_DROPDOWN_OPTIONS } from '../../../shared/constants/priority.constants';
 import { DatePipe } from '@angular/common';
+import { ConfirmationDialog } from '../../confirmation-dialog/confirmation-dialog';
 
 @Component({
-  imports: [Icons, DatePipe],
+  imports: [Icons, DatePipe, ConfirmationDialog],
   selector: 'task-card-view',
   styleUrl: './task-card-view.css',
   templateUrl: './task-card-view.html',

@@ -9,9 +9,11 @@ import { Priority } from '../../../models/task.model';
 import { DropdownOption } from '../../../models/dropdown.model';
 import { IconType } from '../../../models/icon.model';
 import { TasksService } from '../../../services/tasks.service';
+import { InvisibleBackdrop } from '../../invisible-backdrop/invisible-backdrop';
+import { ConfirmationDialog } from '../../confirmation-dialog/confirmation-dialog';
 
 @Component({
-  imports: [DropdownMenu, DueDate, BtnCreate, BtnCancel],
+  imports: [DropdownMenu, DueDate, BtnCreate, BtnCancel, InvisibleBackdrop, ConfirmationDialog],
   selector: 'task-card-form',
   styleUrl: './task-card-form.css',
   templateUrl: './task-card-form.html',
@@ -24,6 +26,8 @@ export class TaskCardForm {
   isEditMode = input<boolean>(false);
 
   closed = output<void>();
+
+  isConfirmDialogOpen = signal<boolean>(false);
 
   toggleEdit = output<boolean>();
 
@@ -40,20 +44,12 @@ export class TaskCardForm {
   buttonTitle = 'Priority';
   datePickerButtonTitle = 'Due date';
 
-  // ngOnInit(): void {
-  //   if (this.task()) {
-  //     const title = this.task()?.title ?? '';
-  //     const description = this.task()?.description ?? '';
-  //     const priority = this.task()?.priority ?? 'Priority';
-  //     const dueDate = this.taskDueDate() ?? null;
+  dialogTitle = 'Delete task';
+  dialogDescription = 'Are you sure you want to delete this task? This action cannot be undone.';
+  discardButtonTag = 'Cancel';
+  confirmButtonTag = 'Delete';
 
-  //     this.taskTitle.set(title);
-  //     this.taskDescription.set(description);
-  //     this.taskPriority.set(priority);
-  //     this.taskDueDate.set(dueDate);
-  //   }
-  // }
-
+  // instead of ngOnInit
   constructor() {
     // Automatically synchronizes form signals whenever the task input changes
     effect(() => {
@@ -102,9 +98,6 @@ export class TaskCardForm {
     // Prevent default browser refresh
     event.preventDefault();
 
-    console.log('Submitting priority:', typeof this.taskPriority()?.id);
-    console.log('Submitting due date:', this.taskDueDate());
-
     if (!this.taskTitle()) {
       return;
     }
@@ -118,8 +111,6 @@ export class TaskCardForm {
         dueDate: this.taskDueDate() ?? undefined,
         priority: this.taskPriority()?.id as Priority,
       };
-
-      console.log(typeof taskToUpdate.dueDate);
 
       // Save the task via a service call
       this.tasksService.updateTask(taskToUpdate);
@@ -147,5 +138,21 @@ export class TaskCardForm {
     this.taskDescription.set('');
     this.taskPriority.set(null);
     this.taskDueDate.set(null);
+  }
+
+  onCancelClick() {
+    this.isConfirmDialogOpen.set(true);
+    // this.closed.emit();
+  }
+
+  // Cancel button
+  onDiscardClick() {
+    this.isConfirmDialogOpen.set(false);
+  }
+
+  // Delete button
+  onConfirmClick() {
+    this.isConfirmDialogOpen.set(false);
+    this.tasksService.deleteTask(this.task()!.id);
   }
 }

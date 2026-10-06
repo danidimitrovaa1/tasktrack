@@ -1,7 +1,8 @@
+<invisible-backdrop (click)="closed.emit()" (click)="onSubmit($event)"></invisible-backdrop>
 <form
   name="new_task_form"
   (submit)="onSubmit($event)"
-  class="flex flex-row mt-6 w-3/5 gap-6 rounded-[15px] border border-gray-300 bg-white p-8 shadow-[0_0_20px_rgba(0,0,0,0.12)] font-custom items-start"
+  class="relative z-20 flex flex-row mt-6 w-3/5 gap-6 rounded-[15px] border border-gray-300 bg-white p-8 shadow-[0_0_20px_rgba(0,0,0,0.12)] font-custom items-start"
 >
   <!-- Left: Checkbox -->
   <input type="checkbox" class="h-6 w-6 rounded border-1 border-gray-300" />
@@ -47,9 +48,19 @@
         ></app-due-date>
       </div>
       <div class="flex flex-row gap-4 items-center">
-        <app-btn-cancel (click)="closed.emit()" class="items-center"></app-btn-cancel>
+        <app-btn-cancel (click)="onCancelClick()" class="items-center"></app-btn-cancel>
         <app-btn-create></app-btn-create>
       </div>
     </div>
   </div>
 </form>
+@if (isConfirmDialogOpen()) {
+  <confirmation-dialog
+    (confirm)="onConfirmClick()"
+    (discard)="onDiscardClick()"
+    [dialogTitle]="dialogTitle"
+    [dialogDescription]="dialogDescription"
+    [discardButtonTag]="discardButtonTag"
+    [confirmButtonTag]="confirmButtonTag"
+  ></confirmation-dialog>
+}
